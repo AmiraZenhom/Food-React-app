@@ -178,7 +178,7 @@ export default function Recipes() {
               {errors.name && errors.name.type === "required" && (
                 <span className="w-75 text-danger">name is required</span>
               )}
-              <div className="valid-feedback">Looks good!</div>
+              <div className="valid-feedback">Looks good!!</div>
             </div>
             <div className="col-md-12">
               <select
