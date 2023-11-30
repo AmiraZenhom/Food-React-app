@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import Logo from "../../../assets/images/1.png";
 import axios from "axios";
@@ -16,10 +15,10 @@ export default function ResetPassword() {
   const onSubmit = (data) => {
     console.log(data);
     axios
-      .post("http://upskilling-egypt.com:3002/api/v1/Users/Reset",data, {
-          headers: {
-           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-       },
+      .post("https://upskilling-egypt.com/api/v1/Users/Reset", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
       })
 
       .then((Response) => {
@@ -76,7 +75,7 @@ export default function ResetPassword() {
                   type="password"
                   className="form-control my-4"
                   placeholder="newpassword"
-                  {...register("password",{ required: true })}
+                  {...register("password", { required: true })}
                 />
                 {errors.newPassword &&
                   errors.newPassword.type === "required" && (
@@ -89,11 +88,11 @@ export default function ResetPassword() {
                 <input
                   type="password"
                   className="form-control my-2"
-                  placeholder="confirmpassword"
-                  {...register("confirmpassword",{ required: true })}
+                  placeholder="confirmPassword"
+                  {...register("confirmPassword", { required: true })}
                 />
-                {errors.confirmNewPassword &&
-                  errors.confirmNewPassword.type === "required" && (
+                {errors.confirmPassword &&
+                  errors.confirmPassword.type === "required" && (
                     <span className="w-75 text-danger">
                       password is required
                     </span>

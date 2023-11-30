@@ -1,76 +1,77 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import './App.css';
-import MasterLayout from './SharedModule/Component/MasterLayout/MasterLayout';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import "./App.css";
+import MasterLayout from "./SharedModule/Component/MasterLayout/MasterLayout";
 import NotFound from "./SharedModule/Component/NotFound/NotFound";
 import Home from "./HomeModule/Component/Home/Home";
 import UserList from "./UserModule/Component/UserList/UserList";
 import Categories from "./CategoriesModule/Component/Categories/Categories";
-import Recipes from './RecipesModule/Component/Recipes/Recipes';
-import AuthLayout from './SharedModule/Component/AuthLayout/AuthLayout';
+import Recipes from "./RecipesModule/Component/Recipes/Recipes";
+import AuthLayout from "./SharedModule/Component/AuthLayout/AuthLayout";
 import Login from "./AuthModule/component/Login/Login";
 import ForgetPass from "./AuthModule/component/ForgetPass/ForgetPass";
-import { ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
-import ProtectedRoute from './SharedModule/Component/ProtectedRoute/ProtectedRoute';
-import RequestPass from './AuthModule/component/RequestPass/RequestPass';
-import ResetPassword from './AuthModule/component/ResetPassword/ResetPassword';
-useState
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import ProtectedRoute from "./SharedModule/Component/ProtectedRoute/ProtectedRoute";
+import RequestPass from "./AuthModule/component/RequestPass/RequestPass";
+import ResetPassword from "./AuthModule/component/ResetPassword/ResetPassword";
+import Header from "./SharedModule/Component/Header/Header";
+
+useState;
 function App() {
- 
-  const[adminData,setAdminData]=useState(null);
+  const [adminData, setAdminData] = useState(null);
   useEffect(() => {
-    if(localStorage.getItem("adminToken")){
+    if (localStorage.getItem("adminToken")) {
       saveAdminData();
     }
   }, []);
-  
 
-  const saveAdminData =()=>{
-    let encodedToken=localStorage.getItem("adminToken");
-    let decodedToken=jwtDecode(encodedToken);
-    setAdminData(decodedToken)
+  const saveAdminData = () => {
+    let encodedToken = localStorage.getItem("adminToken");
+    let decodedToken = jwtDecode(encodedToken);
+    setAdminData(decodedToken);
   };
-  const routes = createBrowserRouter([{
-    path:"/dashboard",element:<ProtectedRoute adminData={adminData}><MasterLayout adminData={adminData}/></ProtectedRoute>,errorElement:<NotFound/>,
-    children:[ 
-      {index:"true",element:<Home/>},
-      {path:"/dashboard/user",element:<UserList/>},
-      {path:"/dashboard/categories",element:<Categories/>},
-      {path:"/dashboard/Recipes",element:<Recipes/>},
+  const routes = createBrowserRouter([
+    {
+      path: "/dashboard",
+      element: (
+        <ProtectedRoute adminData={adminData}>
+          <MasterLayout adminData={adminData} />
+        </ProtectedRoute>
+      ),
+      errorElement: <NotFound />,
+      children: [
+        { index: "true", element: <Home/> },
+        { path: "/dashboard/user", element: <UserList /> },
+        { path: "/dashboard/categories", element: <Categories /> },
+        { path: "/dashboard/Recipes", element: <Recipes /> },
+       
 
-    ]
-  },
+      ],
+    },
 
-  {
-    path:"/",element:<AuthLayout adminData={adminData}/>,errorElement:<NotFound/>,
-    children:[ 
-      {index:"true",element:<Login saveAdminData={saveAdminData} />},
-      {path:"/login",element:<Login saveAdminData={saveAdminData}/>},
-      {path:"/forgetPass",element:<ForgetPass/>},
-      {path:"/requestPass",element:<RequestPass/>},
-      {path:"/resetPassword",element:<ResetPassword/>}
-     
-
-    ]
-
-  }
-
-
-]
-  
-  
-  
-  )
+    {
+      path: "/",
+      element: <AuthLayout adminData={adminData} />,
+      errorElement: <NotFound />,
+      children: [
+        { index: "true", element: <Login saveAdminData={saveAdminData} /> },
+        { path: "/login", element: <Login saveAdminData={saveAdminData} /> },
+        { path: "/forgetPass", element: <ForgetPass /> },
+        { path: "/requestPass", element: <RequestPass /> },
+        { path: "/resetPassword", element: <ResetPassword /> },
+        { path: "/header", element: <Header/> },
+      ],
+    },
+  ]);
 
   return (
     <>
-    <ToastContainer />
-   <RouterProvider router={routes}/>
-     
+      <ToastContainer />
+      <RouterProvider router={routes} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

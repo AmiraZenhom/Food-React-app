@@ -1,4 +1,5 @@
 
+
 .Auth-container{
     background-image: url(assets/images/225.png);
     background-size:cover;
@@ -6,4 +7,38 @@
 }
 .bg-overLay{
     background:linear-gradient(to left, rgba(0,0,0,0.4),rgba(47, 140, 51, 0.7));
+}
+.photo{
+    width: 150px;
+    
+}
+.header-content {
+    background-image: url(../src/assets/images/header-bg-svg.svg);
+    background-size: cover;
+    background-position: 100% 100%;
+}
+
+.sidebar-container
+.ps-sidebar-container{
+
+    background-color:rgba(31, 38, 62, 1);
+    color:rgb(255,255,255); 
+    border-top-right-radius: 50px; 
+} 
+._sidebar_j2k35_11 {
+    height:auto;
+    background-color:rgba(31, 38, 62, 1);
+    border-top-right-radius: 50px;
+}
+.css-1wvake5{
+    border-color:transparent !important;
+}
+
+.image{
+    width: 50px;
+}
+
+.sidebar-container
+.ps-sidebar-container .ps-menuitem-root :hover{
+    background-color:rgba(0, 146, 71, 0.1);
 }

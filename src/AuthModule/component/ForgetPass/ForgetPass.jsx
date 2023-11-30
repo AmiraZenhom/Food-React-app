@@ -5,7 +5,7 @@ import axios from "axios";
 import {  toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
-export default function ForgetPass() {
+export default function ForgetPass({handelclose}) {
   const navigate = useNavigate();
   const {
     register,
@@ -14,13 +14,15 @@ export default function ForgetPass() {
 
     const onSubmit=(data)=>{
       console.log(data);
-      axios.put( 'http://upskilling-egypt.com:3002/api/v1/Users/ChangePassword',data,
+      axios.put( 'https://upskilling-egypt.com/api/v1/Users/ChangePassword',data,
      {headers:{ Authorization:`Bearer ${localStorage.getItem("adminToken")}`,},}
       )
      
       .then((Response)=>{
         console.log(Response);
+        handelclose();
         navigate("/login")
+       
      //   setTimeout(toast("Wow Login !"), 2000) ;
      // localStorage.setItem("adminToken",Response.data.token) 
      // saveAdminData() 

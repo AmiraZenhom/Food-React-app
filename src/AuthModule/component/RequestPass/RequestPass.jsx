@@ -11,9 +11,9 @@ export default function RequestPass() {
       handleSubmit,
       formState:{ errors },} = useForm();
       const onSubmit=(data)=>{
-        axios.post('http://upskilling-egypt.com:3002/api/v1/Users/Reset/Request',data)
-        .then((Response)=>{
-            console.log(Response)
+        axios.post('https://upskilling-egypt.com/api/v1/Users/Reset/Request',data)
+        .then((response)=>{
+            console.log(response)
          setTimeout(toast("go to Reset !"), 2000) ;
        // localStorage.setItem("adminToken",Response.data.token) ;
        // saveAdminData() 

@@ -3,7 +3,7 @@ import React from "react";
 import Logo from "../../../assets/images/1.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,7 +17,7 @@ export default function Login({ saveAdminData }) {
   } = useForm();
   const onSubmit = (data) => {
     axios
-      .post("http://upskilling-egypt.com:3002/api/v1/Users/Login", data)
+      .post("https://upskilling-egypt.com/api/v1/Users/Login", data)
       .then((Response) => {
         setTimeout(toast("Wow Login !"), 2000);
         localStorage.setItem("adminToken", Response.data.token);
@@ -72,10 +72,10 @@ export default function Login({ saveAdminData }) {
                 </div>
                 <div className="my-2 d-flex justify-content-between">
                   <p>Register Now?</p>
-                  <a href="/requestPass">
-                    {" "}
+
+                  <Link to="/requestPass">
                     <p>Forgot Password?</p>
-                  </a>
+                  </Link>
                 </div>
                 <button className="btn btn-success w-100 my-4">Login</button>
               </form>
