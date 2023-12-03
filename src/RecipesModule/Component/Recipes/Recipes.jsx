@@ -19,11 +19,11 @@ export default function Recipes() {
   const onSubmit = (data) => {
     const addFormData = new FormData();
     addFormData.append("name", data["name"]);
-    addFormData.append("Price", data["price"]);
+    addFormData.append("price", +data["price"]);
     addFormData.append("description", data["description"]);
     addFormData.append("tagId", data["tagId"]);
     addFormData.append("categoriesIds", data["categoriesIds"]);
-    addFormData.append("recipeImage", data["recipeImage"][0]);
+    addFormData.append("recipeImage", data["additionalInfo"][0]);
 
     axios
       .post("https://upskilling-egypt.com/api/v1/Recipe/", addFormData, {
@@ -95,10 +95,13 @@ export default function Recipes() {
     setModalState("modal-two");
   };
   const showUpdateModal = (recipeItem) => {
+    getAllTag()
+    getCategoriesList()
     setItemId(recipeItem.id);
+   
     setValue("name", recipeItem.name);
     setValue("price", recipeItem.price);
-    setValue("description", recipeItem.description);
+     setValue("description", recipeItem.description);
     setValue("categoriesIds", recipeItem.categoriesIds);
     setValue("tagId", recipeItem.tagId);
     setValue("additionalInfo", recipeItem.additionalInfo);
@@ -112,8 +115,9 @@ export default function Recipes() {
         },
       })
       .then((response) => {
-        console.log(response);
-        setTagList(response.data.data);
+        console.log({ tagList: response.data });
+
+        setTagList(response?.data);
       })
       .catch((error) => {
         console.log(error);
@@ -188,10 +192,12 @@ export default function Recipes() {
                 aria-label="select example"
               >
                 {categoriesList?.map((cat) => {
-                  <option key={cat.id} value={cat.id}>
-                    {" "}
-                    {cat.name}
-                  </option>;
+                  return (
+                    <option key={cat.id} value={cat.id}>
+                      {" "}
+                      {cat.name}
+                    </option>
+                  );
                 })}
               </select>
               <div className="invalid-feedback">
@@ -218,9 +224,11 @@ export default function Recipes() {
                 className="form-select"
                 placeholder="tagId"
               >
-                {tagList?.map((tag) => {
-                  <option value={tag.id}>{tag.name} </option>;
-                })}
+                {tagList?.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name}{" "}
+                  </option>
+                ))}
               </select>
               {errors.tagId && errors.tagId.type === "required" && (
                 <span className="w-75 text-danger">tagId is required</span>
@@ -330,10 +338,12 @@ export default function Recipes() {
                 aria-label="select example"
               >
                 {categoriesList?.map((cat) => {
-                  <option key={cat.id} value={cat.id}>
-                    {" "}
-                    {cat.name}
-                  </option>;
+                  return (
+                    <option key={cat.id} value={cat.id}>
+                      {" "}
+                      {cat.name}
+                    </option>
+                  );
                 })}
               </select>
               <div className="invalid-feedback">
@@ -360,9 +370,11 @@ export default function Recipes() {
                 className="form-select"
                 placeholder="tagId"
               >
-                {tagList?.map((tag) => {
-                  <option value={tag.id}>{tag.name} </option>;
-                })}
+                {tagList?.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name}{" "}
+                  </option>
+                ))}
               </select>
               {errors.tagId && errors.tagId.type === "required" && (
                 <span className="w-75 text-danger">tagId is required</span>

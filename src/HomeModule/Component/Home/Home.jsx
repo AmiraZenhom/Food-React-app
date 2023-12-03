@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Header from '../../../SharedModule/Component/Header/Header'
 import header from "../../../assets/images/Group 48102127.png";
 import { Link } from 'react-router-dom';
