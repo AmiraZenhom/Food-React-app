@@ -468,13 +468,13 @@ export default function Recipes() {
                     <td>{recipe.name}</td>
                     <td>
                       <div className="image">
-                        <img
+                       {recipe.imagePath? <img
                           className="w-100 img-fluid"
                           src={
-                            `https://upskilling-egypt.com/` + recipe.imagePath
+                            `https://upskilling-egypt.com/`+ recipe.imagePath
                           }
                           alt=""
-                        />
+                        />:"errorssss"}
                       </div>
                     </td>
                     <td>{recipe.price}</td>

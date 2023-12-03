@@ -134,7 +134,7 @@ export default function UserList() {
                         )}
                       </div>
                     </td>
-                    <td>{User.PhoneNumber}</td>
+                    <td>{User.phoneNumber}</td>
 
                     <td>
                       <i
