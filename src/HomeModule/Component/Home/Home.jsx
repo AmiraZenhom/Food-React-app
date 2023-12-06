@@ -8,7 +8,7 @@ export default function Home() {
         <div className="header-content  m-2 text-white ">
           <div className="row px-4  g-0 align-Items-center justify-content-center  ">
             <div className="col-sm-8 py-5 my-4 px-5  ">
-              <div className="mx-3">
+              <div className="mx-3 ">
                 <h3>Welcom Upskilling !</h3>
                 <p>
                   This is a welcoming screen for the entry of the application , <br />
