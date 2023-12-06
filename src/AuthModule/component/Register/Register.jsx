@@ -46,18 +46,21 @@ export default function Register() {
                 </p>
 
                 <div className="row">
-                  <div className="form-group col-md-6  mb-3 position-relative ">
+                <div className="form-group col-md-6  mb-3 position-relative ">
                     <i className="fa-solid fa-user position-absolute mt-2 ms-1 text-success"></i>
                     <input
                       type="text"
-                      className="form-control ps-4 input-group-text "
-                      placeholder="  Enter Your Name"
+                      className="form-control input-group-text "
+                      placeholder="User Name"
                       {...register("userName", { required: true })}
                     />
                     {errors.userName && errors.userName.type === "required" && (
-                      <span className="w-75 text-danger">userName is required</span>
+                      <span className="w-75 text-danger">
+                        userName is required
+                      </span>
                     )}
                   </div>
+                
 
                   <div className="form-group col-md-6 mb-3 position-relative ">
                     <i className="fa fa-envelope-open position-absolute mt-2 ms-1 text-success"></i>
@@ -81,7 +84,7 @@ export default function Register() {
                       placeholder="Country"
                       {...register("country", { required: true })}
                     />
-                    {errors.password && errors.password.type === "required" && (
+                    {errors.country && errors.country.type === "required" && (
                       <span className="w-75 text-danger">
                         Country is required
                       </span>
