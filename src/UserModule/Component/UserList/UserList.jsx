@@ -10,11 +10,19 @@ export default function UserList() {
   const [usersList, setUsersList] = useState([]);
   const [modalState, setModalState] = useState("close");
   const [itemId, setItemId] = useState(0);
+  const [search, setSearch] = useState("");
+ 
   const handleClose = () => setModalState("close");
   const showDeleteModal = (id) => {
     setItemId(id);
     setModalState("modal-two");
   };
+  const getNameValue = (input) => {
+    setSearch(input.target.value);
+    getUsersList(1,input.target.value);
+  };
+  
+  const [pagesArray, setPagesArray] = useState([]);
 
   const deleteUser = () => {
     axios
@@ -33,18 +41,28 @@ export default function UserList() {
       });
   };
 
-  const getUsersList = () => {
+  const getUsersList = (pageNu, userName) => {
     axios
       .get(
-        'https://upskilling-egypt.com:443/api/v1/Users/?pageSize=10&pageNumber=1',
+        'https://upskilling-egypt.com:443/api/v1/Users/',
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+          params: {
+            pageSize: 5,
+            pageNumber: pageNu,
+            userName: userName,
           },
         }
       )
       .then((response) => {
         console.log(response);
+        setPagesArray(
+          Array(response.data.totalNumberOfPages)
+            .fill()
+            .map((_, i) => i + 1)
+        );
         setUsersList(response?.data?.data);
       })
       .catch((error) => {
@@ -83,8 +101,8 @@ export default function UserList() {
           <div className="row px-4 py-2 g-0 align-Items-center  ">
             <div className="col-sm-10  ">
               <div className="mx-3">
-                <h3>Welcom Uouo</h3>
-                <p>Lorem ipsum dolor sit amet.</p>
+                <h3>Users List</h3>
+                <p>You can now add your items that any user can order it from <br /> the Application and you can edit</p>
               </div>
             </div>
             <div className="col-md-2">
@@ -97,14 +115,20 @@ export default function UserList() {
       <div className=" mx-3 py-5  px-3 ">
         <div className=" row align-items-center ">
           <div className="col-md-9">
-            <h4>Recipe Table Details</h4>
+            <h4>User Table Details</h4>
             <p>You can check all details</p>
           </div>
-          <div className="col-md-3 text-end "></div>
+          
 
+          <input
+            onChange={getNameValue}
+            className="form-control my-4 me-3 border-success "
+            type="text"
+            placeholder="search by user name"
+          />
           {usersList.length > 0 ? (
-            <table className="table">
-              <thead>
+            <table className="table  table-hover table-bordered  text-center container-fluid">
+              <thead className="table-info">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">User Name</th>
@@ -119,13 +143,13 @@ export default function UserList() {
                     <th scope="row">{index + 1}</th>
                     <td>{User.userName}</td>
                     <td>
-                      <div className="image">
-                        {User.imagePath ? (
+                      <div className="image  m-auto">
+                        {User.imagePath? (
                          <div >
                            <img
                          className="w-50 img-fluid"
                          src={
-                           `https://upskilling-egypt.com/` + User.imagePath
+                           `https://upskilling-egypt.com/`+User.imagePath
                          }
                          alt=""
                        /></div>
@@ -151,6 +175,23 @@ export default function UserList() {
           )}
         </div>
       </div>
+      <div className="d-flex justify-content-center my-5">
+            <nav aria-label="...">
+              <ul className="pagination pagination-lg">
+                {pagesArray.map((pageNu) => (
+                  <li
+                    key={pageNu}
+                    onClick={() => getUsersList(pageNu,search)}
+                    className="page-item"
+                  >
+                    <a className="page-link" href="#">
+                      {pageNu}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
     </>
   );
 }

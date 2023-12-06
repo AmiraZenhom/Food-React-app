@@ -16,6 +16,11 @@ export default function Recipes() {
     formState: { errors },
   } = useForm();
 
+  const getNameValue = (input) => {
+    setSearch(input.target.value);
+    getRecipesList(1, input.target.value);
+  };
+  const [pagesArray, setPagesArray] = useState([]);
   const onSubmit = (data) => {
     const addFormData = new FormData();
     addFormData.append("name", data["name"]);
@@ -23,12 +28,13 @@ export default function Recipes() {
     addFormData.append("description", data["description"]);
     addFormData.append("tagId", data["tagId"]);
     addFormData.append("categoriesIds", data["categoriesIds"]);
-    addFormData.append("recipeImage", data["additionalInfo"][0]);
+    addFormData.append("recipeImage", data["recipeImage"][0]);
 
     axios
       .post("https://upskilling-egypt.com/api/v1/Recipe/", addFormData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
@@ -60,10 +66,19 @@ export default function Recipes() {
   };
 
   const UpdateCategory = (data) => {
+    const upDateFormData = new FormData();
+    upDateFormData.append("name", data["name"]);
+    upDateFormData.append("price", +data["price"]);
+    upDateFormData.append("description", data["description"]);
+    upDateFormData.append("tagId", data["tagId"]);
+    upDateFormData.append("categoriesIds", data["categoriesIds"]);
+    upDateFormData.append("recipeImage", data["recipeImage"][0]);
+    
     axios
-      .put(`https://upskilling-egypt.com/api/v1/Recipe/${itemId}`, data, {
+      .put(`https://upskilling-egypt.com/api/v1/Recipe/${itemId}`, upDateFormData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
@@ -84,6 +99,7 @@ export default function Recipes() {
   const [itemId, setItemId] = useState(0);
   const [tagList, setTagList] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]);
+  const [search, setSearch] = useState("");
   const showAddModal = () => {
     getAllTag();
     getCategoriesList();
@@ -95,16 +111,16 @@ export default function Recipes() {
     setModalState("modal-two");
   };
   const showUpdateModal = (recipeItem) => {
-    getAllTag()
-    getCategoriesList()
+    getAllTag();
+    getCategoriesList();
     setItemId(recipeItem.id);
-   
+    console.log(recipeItem);
     setValue("name", recipeItem.name);
     setValue("price", recipeItem.price);
-     setValue("description", recipeItem.description);
-    setValue("categoriesIds", recipeItem.categoriesIds);
-    setValue("tagId", recipeItem.tagId);
-    setValue("additionalInfo", recipeItem.additionalInfo);
+    setValue("description", recipeItem.description);
+    setValue("categoriesIds", recipeItem.category[0].id);
+    setValue("tagId", recipeItem.tag.id);
+    setValue("recipeImage", recipeItem.recipeImage);
     setModalState("modal-three");
   };
   const getAllTag = () => {
@@ -123,17 +139,24 @@ export default function Recipes() {
         console.log(error);
       });
   };
-  const getRecipesList = () => {
+  const getRecipesList = (pageNu, name) => {
     axios
-      .get(
-        "https://upskilling-egypt.com/api/v1/Recipe/?pageSize=10&pageNumber=1",
-        {
-          headers: {
-            Authorization: `Bearer${localStorage.getItem("adminToken")}`,
-          },
-        }
-      )
+      .get("https://upskilling-egypt.com/api/v1/Recipe/", {
+        headers: {
+          Authorization: `Bearer${localStorage.getItem("adminToken")}`,
+        },
+        params: {
+          pageSize: 5,
+          pageNumber: pageNu,
+          name: name,
+        },
+      })
       .then((response) => {
+        setPagesArray(
+          Array(response.data.totalNumberOfPages)
+            .fill()
+            .map((_, i) => i + 1)
+        );
         console.log(response);
         setRecipeList(response?.data?.data);
       })
@@ -255,12 +278,12 @@ export default function Recipes() {
                 type="file"
                 className="form-control"
                 aria-label="file example"
-                {...register("additionalInfo", { required: true })}
+                {...register("recipeImage", { required: true })}
               />
-              {errors.additionalInfo &&
-                errors.additionalInfo.type === "required" && (
+              {errors.recipeImage &&
+                errors.recipeImage.type === "required" && (
                   <span className="w-75 text-danger">
-                    additionalInfo is required
+                    recipeImage is required
                   </span>
                 )}
               <div className="invalid-feedback">
@@ -286,15 +309,15 @@ export default function Recipes() {
       </Modal>
 
       <Modal show={modalState == "modal-two"} onHide={handleClose}>
-        <Modal.Body>
+        <Modal.Body className="mod ">
           <form
             className=" w-75  m-auto  "
             onSubmit={handleSubmit(deleteCategory)}
           >
-            <div className="text-center">
+            <div className="text-center ">
               <img src={Photo} alt="nodata" />
-              <h4> Delete This Category ?</h4>
-              <p>
+              <h4 className="text-danger"> Delete This Category ?</h4>
+              <p className="text-danger">
                 are you sure you want to delete this item ? if you are sure just
                 click on delete it
               </p>
@@ -311,16 +334,16 @@ export default function Recipes() {
         </Modal.Body>
       </Modal>
       <Modal show={modalState == "modal-three"} onHide={handleClose}>
-        <Modal.Body>
+        <Modal.Body className="mod1">
           <form
             className=" w-75  m-auto  "
             onSubmit={handleSubmit(UpdateCategory)}
           >
-            <h4> Update Item</h4>
-            <div className="col-md-12 form-group">
+            <h4 className="text-success py-3"> Update Item</h4>
+            <div className="col-md-12 form-group ">
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-3 border-success"
                 id="validationCustom01"
                 placeholder="Name"
                 {...register("name", { required: true })}
@@ -332,7 +355,7 @@ export default function Recipes() {
             </div>
             <div className="col-md-12">
               <select
-                className="form-select"
+                className="form-select mb-3 border-success"
                 placeholder="Category"
                 {...register("categoriesIds", { required: true })}
                 aria-label="select example"
@@ -353,7 +376,7 @@ export default function Recipes() {
             <div className="col-md-12">
               <input
                 type="number"
-                className="form-control"
+                className="form-control mb-3 border-success"
                 id="validationCustom02"
                 placeholder="Price"
                 {...register("price", { required: true })}
@@ -367,7 +390,7 @@ export default function Recipes() {
             <div className="col-md-12 form-group">
               <select
                 {...register("tagId", { required: true })}
-                className="form-select"
+                className="form-select mb-3 border-success"
                 placeholder="tagId"
               >
                 {tagList?.map((tag) => (
@@ -386,7 +409,7 @@ export default function Recipes() {
             </div>
 
             <textarea
-              className="form-control "
+              className="form-control mb-3 border-success"
               id="exampleFormControlTextarea1"
               rows="3"
               placeholder="Description"
@@ -399,16 +422,15 @@ export default function Recipes() {
             <div className="mb-3">
               <input
                 type="file"
-                className="form-control"
+                className="form-control mb-3 border-success"
                 aria-label="file example"
-                {...register("additionalInfo", { required: true })}
+                {...register("recipeImage", { required: true })}
               />
-              {errors.additionalInfo &&
-                errors.additionalInfo.type === "required" && (
-                  <span className="w-75 text-danger">
-                    additionalInfo is required
-                  </span>
-                )}
+              {errors.recipeImage && errors.recipeImage.type === "required" && (
+                <span className="w-75 text-danger">
+                  recipeImage is required
+                </span>
+              )}
               <div className="invalid-feedback">
                 Example invalid form file feedback
               </div>
@@ -421,38 +443,46 @@ export default function Recipes() {
 
       <Header>
         <div className="header-content  m-2 text-white ">
-          <div className="row px-4 py-2 g-0 align-Items-center  ">
-            <div className="col-sm-10  ">
+          <div className="row px-4  g-0 align-Items-center justify-content-center  ">
+            <div className="col-sm-9 p-5  ">
               <div className="mx-3">
-                <h3>Welcom Rere</h3>
-                <p>Lorem ipsum dolor sit amet.</p>
+                <h3>Recipes Items</h3>
+                <p>
+                  You can now add your items that any user can order it from{" "}
+                  <br /> the Application and you can edit
+                </p>
               </div>
             </div>
-            <div className="col-md-2">
+            <div className="col-md-3  py-3 ps-5 ">
               <img className="img-fluid" src={header} alt="" />
             </div>
           </div>
         </div>
       </Header>
 
-      <div className=" mx-3 py-5  px-3 ">
-        <div className=" row align-items-center ">
+      <div className=" mx-3 py-4  px-3 ">
+        <div className=" row align-items-center  ">
           <div className="col-md-9">
             <h4>Recipe Table Details</h4>
             <p>You can check all details</p>
           </div>
-          <div className="col-md-3 text-end ">
+          <div className="col-md-3 text-end pb-4 px-5  ">
             <button onClick={showAddModal} className="btn btn-success">
               Add New Item{" "}
             </button>
           </div>
-
+          <input
+            onChange={getNameValue}
+            className="form-control my-4 border-success "
+            type="text"
+            placeholder="search by recipe name"
+          />
           {recipeList.length > 0 ? (
-            <table className="table">
-              <thead>
+            <table className="table mx-3  table-hover table-bordered  text-center container-fluid ">
+              <thead className="table-warning">
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">RecipeName</th>
+                  <th scope="col">Item Name</th>
                   <th scope="col">Image</th>
                   <th scope="col">Price</th>
                   <th scope="col">Description</th>
@@ -462,19 +492,29 @@ export default function Recipes() {
                 </tr>
               </thead>
               <tbody>
-                {recipeList.map((recipe) => (
+                {recipeList.map((recipe, index) => (
                   <tr key={recipe.id}>
-                    <th scope="row">{recipe.id}</th>
+                    <th scope="row">{index + 1}</th>
                     <td>{recipe.name}</td>
-                    <td>
-                      <div className="image">
-                       {recipe.imagePath? <img
-                          className="w-100 img-fluid"
-                          src={
-                            `https://upskilling-egypt.com/`+ recipe.imagePath
-                          }
-                          alt=""
-                        />:"errorssss"}
+                    <td className="">
+                      <div className="image   m-auto ">
+                        {recipe.imagePath ? (
+                          <img
+                            className="w-100 img-fluid"
+                            src={
+                              `https://upskilling-egypt.com/` + recipe.imagePath
+                            }
+                            alt=""
+                          />
+                        ) : (
+                          <div>
+                            <img
+                              className="w-50"
+                              src={Photo}
+                              alt="image error"
+                            />
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td>{recipe.price}</td>
@@ -498,6 +538,23 @@ export default function Recipes() {
           ) : (
             <NoData />
           )}
+          <div className="d-flex justify-content-center my-5">
+            <nav aria-label="...">
+              <ul className="pagination pagination-lg">
+                {pagesArray.map((pageNu) => (
+                  <li
+                    key={pageNu}
+                    onClick={() => getRecipesList(pageNu, search)}
+                    className="page-item"
+                  >
+                    <a className="page-link" href="#">
+                      {pageNu}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </>

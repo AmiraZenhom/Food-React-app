@@ -17,6 +17,7 @@ import ProtectedRoute from "./SharedModule/Component/ProtectedRoute/ProtectedRou
 import RequestPass from "./AuthModule/component/RequestPass/RequestPass";
 import ResetPassword from "./AuthModule/component/ResetPassword/ResetPassword";
 import Header from "./SharedModule/Component/Header/Header";
+import Register from "./AuthModule/component/Register/Register";
 
 useState;
 function App() {
@@ -27,10 +28,14 @@ function App() {
     }
   }, []);
 
-  const saveAdminData = () => {
+  let saveAdminData = () => {
     let encodedToken = localStorage.getItem("adminToken");
-    let decodedToken = jwtDecode(encodedToken);
-    setAdminData(decodedToken);
+    try {
+      let decodedToken = jwtDecode(encodedToken);
+      setAdminData(decodedToken);
+    } catch (error) {
+      setAdminData(null);
+    }
   };
   const routes = createBrowserRouter([
     {
@@ -42,12 +47,10 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: "true", element: <Home/> },
+        { index: "true", element: <Home /> },
         { path: "/dashboard/user", element: <UserList /> },
         { path: "/dashboard/categories", element: <Categories /> },
-        { path: "/dashboard/Recipes", element: <Recipes /> },
-       
-
+        { path: "/dashboard/Recipes", element: <Recipes /> }
       ],
     },
 
@@ -61,7 +64,11 @@ function App() {
         { path: "/forgetPass", element: <ForgetPass /> },
         { path: "/requestPass", element: <RequestPass /> },
         { path: "/resetPassword", element: <ResetPassword /> },
-        { path: "/header", element: <Header/> },
+        {
+          path: "/register",
+          element: <Register  />,
+        },
+        { path: "/header", element: <Header /> },
       ],
     },
   ]);

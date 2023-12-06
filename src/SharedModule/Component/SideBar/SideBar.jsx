@@ -19,7 +19,7 @@ export default function SideBar() {
      navigate("/");
    };
 
-  let [isCollapsed, setIsCollapsed] = useState(false);
+  let [isCollapsed, setIsCollapsed] = useState(true);
   let handelToggle = () => {
     setIsCollapsed(!isCollapsed);
   };

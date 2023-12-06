@@ -71,8 +71,9 @@ export default function Login({ saveAdminData }) {
                   )}
                 </div>
                 <div className="my-2 d-flex justify-content-between">
-                  <p>Register Now?</p>
-
+                  <Link to="/register">
+                    <p>Register Now?</p>
+                  </Link>
                   <Link to="/requestPass">
                     <p>Forgot Password?</p>
                   </Link>

@@ -16,6 +16,10 @@ export default function Categories() {
     formState: { errors },
   } = useForm();
   const [pagesArray, setPagesArray] = useState([]);
+  const getNameValue = (input) => {
+    setSearch(input.target.value);
+    getCategoriesList(1, input.target.value);
+  };
   const onSubmit = (data) => {
     axios
       .post("https://upskilling-egypt.com/api/v1/Category/", data, {
@@ -74,6 +78,7 @@ export default function Categories() {
   const [categoriesList, setCategoriesList] = useState([]);
   const [modalState, setModalState] = useState("close");
   const [itemId, setItemId] = useState(0);
+  const [search, setSearch] = useState("")
   const showAddModal = () => {
     setValue("name", null);
     setModalState("modal-one");
@@ -87,7 +92,7 @@ export default function Categories() {
     setValue("name", categoryItem.name);
     setModalState("modal-three");
   };
-  const getCategoriesList = (pageNu) => {
+  const getCategoriesList = (pageNu,name) => {
     axios
       .get("https://upskilling-egypt.com/api/v1/Category/", {
         headers: {
@@ -96,6 +101,7 @@ export default function Categories() {
         params: {
           pageSize: 5,
           pageNumber: pageNu,
+          name:name
         },
       })
       .then((response) => {
@@ -189,12 +195,12 @@ export default function Categories() {
       <Header>
         <div className="header-content  m-2 text-white  ">
           <div className="row px-4 py-2 g-0 align-Items-center  ">
-            <div className="col-sm-10  ">
+            <div className="col-sm-10 mt-4 ps-5  ">
               <div className="mx-3">
                 <h3>Categories Item</h3>
                 <p>
-                  You can now add your items that any user can order it from the
-                  Application and you can edit
+                  You can now add your items that any user can order it from{" "}
+                  <br /> the Application and you can edit
                 </p>
               </div>
             </div>
@@ -216,20 +222,31 @@ export default function Categories() {
             </button>
           </div>
           <div>
+          <input
+            onChange={getNameValue}
+            className="form-control my-4 border-success"
+            type="text"
+            placeholder="search by category name"
+          />
             {categoriesList.length > 0 ? (
-              <table className="table">
-                <thead>
+              <table className="table  table-hover table-bordered  text-center">
+                <thead className="table-secondary">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                   
+
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
+               
                 <tbody>
-                  {categoriesList.map((category) => (
+                  {categoriesList.map((category, index) => (
                     <tr key={category.id}>
-                      <th scope="row">{category.id}</th>
+                      <th scope="row">{index + 1}</th>
                       <td>{category.name}</td>
+                     
+
                       <td>
                         <i
                           onClick={() => showUpdateModal(category)}
@@ -253,7 +270,7 @@ export default function Categories() {
                   {pagesArray.map((pageNu) => (
                     <li
                       key={pageNu}
-                      onClick={() => getCategoriesList(pageNu)}
+                      onClick={() => getCategoriesList(pageNu,search)}
                       className="page-item"
                     >
                       <a className="page-link" href="#">
