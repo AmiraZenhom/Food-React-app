@@ -11,7 +11,7 @@ export default function UserList() {
   const [modalState, setModalState] = useState("close");
   const [itemId, setItemId] = useState(0);
   const [search, setSearch] = useState("");
- 
+
   const handleClose = () => setModalState("close");
   const showDeleteModal = (id) => {
     setItemId(id);
@@ -19,12 +19,13 @@ export default function UserList() {
   };
   const getNameValue = (input) => {
     setSearch(input.target.value);
-    getUsersList(1,input.target.value);
+    getUsersList(1, input.target.value);
   };
-  
+
   const [pagesArray, setPagesArray] = useState([]);
 
   const deleteUser = () => {
+    alert(itemId);
     axios
       .delete(`https://upskilling-egypt.com/api/v1/Users/${itemId}`, {
         headers: {
@@ -43,19 +44,16 @@ export default function UserList() {
 
   const getUsersList = (pageNu, userName) => {
     axios
-      .get(
-        'https://upskilling-egypt.com:443/api/v1/Users/',
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-          },
-          params: {
-            pageSize: 5,
-            pageNumber: pageNu,
-            userName: userName,
-          },
-        }
-      )
+      .get("https://upskilling-egypt.com:443/api/v1/Users/", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+        params: {
+          pageSize: 5,
+          pageNumber: pageNu,
+          userName: userName,
+        },
+      })
       .then((response) => {
         console.log(response);
         setPagesArray(
@@ -102,11 +100,14 @@ export default function UserList() {
             <div className="col-sm-10  ">
               <div className="mx-3">
                 <h3>Users List</h3>
-                <p>You can now add your items that any user can order it from <br /> the Application and you can edit</p>
+                <p>
+                  You can now add your items that any user can order it from{" "}
+                  <br /> the Application and you can edit
+                </p>
               </div>
             </div>
             <div className="col-md-2">
-              <img className="img-fluid" src={header} alt="" />
+              <img className="img-fluid headerImg" src={header} alt="logo" />
             </div>
           </div>
         </div>
@@ -118,7 +119,6 @@ export default function UserList() {
             <h4>User Table Details</h4>
             <p>You can check all details</p>
           </div>
-          
 
           <input
             onChange={getNameValue}
@@ -137,6 +137,7 @@ export default function UserList() {
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
+
               <tbody>
                 {usersList.map((User, index) => (
                   <tr key={User.id}>
@@ -144,27 +145,35 @@ export default function UserList() {
                     <td>{User.userName}</td>
                     <td>
                       <div className="image  m-auto">
-                        {User.imagePath? (
-                         <div >
-                           <img
-                         className="w-50 img-fluid"
-                         src={
-                           `https://upskilling-egypt.com/`+User.imagePath
-                         }
-                         alt=""
-                       /></div>
+                        {User.imagePath ? (
+                          <div>
+                            <img
+                              className="w-50 img-fluid"
+                              src={
+                                `https://upskilling-egypt.com/` + User.imagePath
+                              }
+                              alt=""
+                            />
+                          </div>
                         ) : (
-                         <div> <img className="w-75" src={Photo} alt="no data" /></div>
+                          <div>
+                            {" "}
+                            <img className="w-75" src={Photo} alt="no data" />
+                          </div>
                         )}
                       </div>
                     </td>
                     <td>{User.phoneNumber}</td>
 
                     <td>
-                      <i
-                        onClick={() => showDeleteModal(User.id)}
-                        className="fa fa-trash fs-4 ms-2 text-danger"
-                      ></i>
+                      {User.group.name == "SystemUser" ? (
+                        <i
+                          onClick={() => showDeleteModal(User.id)}
+                          className="fa fa-trash fs-4 ms-2 text-danger"
+                        ></i>
+                      ) : (
+                        ""
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -176,22 +185,22 @@ export default function UserList() {
         </div>
       </div>
       <div className="d-flex justify-content-center my-5">
-            <nav aria-label="...">
-              <ul className="pagination pagination-lg">
-                {pagesArray.map((pageNu) => (
-                  <li
-                    key={pageNu}
-                    onClick={() => getUsersList(pageNu,search)}
-                    className="page-item"
-                  >
-                    <a className="page-link" href="#">
-                      {pageNu}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
+        <nav aria-label="...">
+          <ul className="pagination pagination-sm">
+            {pagesArray.map((pageNu) => (
+              <li
+                key={pageNu}
+                onClick={() => getUsersList(pageNu, search)}
+                className="page-item"
+              >
+                <a className="page-link" href="#">
+                  {pageNu}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </>
   );
 }

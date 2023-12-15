@@ -188,16 +188,16 @@ export default function Recipes() {
   return (
     <>
       <Modal show={modalState == "modal-one"} onHide={handleClose}>
-        <Modal.Body>
+        <Modal.Body className="mod1">
           <form
-            className="row g-3 needs-validation "
+            className="row g-3 needs-validation  "
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h4> Add New Item</h4>
+            <h4 className="text-success"> Add New Item</h4>
             <div className="col-md-12 form-group">
               <input
                 type="text"
-                className="form-control"
+                className="form-control border-success"
                 id="validationCustom01"
                 placeholder="Name"
                 {...register("name", { required: true })}
@@ -209,7 +209,7 @@ export default function Recipes() {
             </div>
             <div className="col-md-12">
               <select
-                className="form-select"
+                className="form-select border-success"
                 placeholder="Category"
                 {...register("categoriesIds", { required: true })}
                 aria-label="select example"
@@ -223,14 +223,14 @@ export default function Recipes() {
                   );
                 })}
               </select>
-              <div className="invalid-feedback">
+              <div className="invalid-feedback border-success">
                 Example invalid select feedback
               </div>
             </div>
             <div className="col-md-12">
               <input
                 type="number"
-                className="form-control"
+                className="form-control border-success"
                 id="validationCustom02"
                 placeholder="Price"
                 {...register("price", { required: true })}
@@ -244,7 +244,7 @@ export default function Recipes() {
             <div className="col-md-12 form-group">
               <select
                 {...register("tagId", { required: true })}
-                className="form-select"
+                className="form-select border-success"
                 placeholder="tagId"
               >
                 {tagList?.map((tag) => (
@@ -263,7 +263,7 @@ export default function Recipes() {
             </div>
 
             <textarea
-              className="form-control "
+              className="form-control border-success  "
               id="exampleFormControlTextarea1"
               rows="3"
               placeholder="Description"
@@ -276,7 +276,7 @@ export default function Recipes() {
             <div className="mb-3">
               <input
                 type="file"
-                className="form-control"
+                className="form-control border-success"
                 aria-label="file example"
                 {...register("recipeImage", { required: true })}
               />
@@ -454,7 +454,7 @@ export default function Recipes() {
               </div>
             </div>
             <div className="col-md-3  py-3 ps-5 ">
-              <img className="img-fluid" src={header} alt="" />
+              <img className="img-fluid headerImg" src={header} alt="" />
             </div>
           </div>
         </div>
@@ -467,7 +467,7 @@ export default function Recipes() {
             <p>You can check all details</p>
           </div>
           <div className="col-md-3 text-end pb-4 px-5  ">
-            <button onClick={showAddModal} className="btn btn-success">
+            <button onClick={showAddModal} className="btn btn-success ">
               Add New Item{" "}
             </button>
           </div>
@@ -478,7 +478,7 @@ export default function Recipes() {
             placeholder="search by recipe name"
           />
           {recipeList.length > 0 ? (
-            <table className="table mx-3  table-hover table-bordered  text-center container-fluid ">
+            <table className="table mx-3  table-hover   text-center container-fluid ">
               <thead className="table-warning">
                 <tr>
                   <th scope="col">#</th>
@@ -540,7 +540,7 @@ export default function Recipes() {
           )}
           <div className="d-flex justify-content-center my-5">
             <nav aria-label="...">
-              <ul className="pagination pagination-lg">
+              <ul className="pagination pagination-sm">
                 {pagesArray.map((pageNu) => (
                   <li
                     key={pageNu}

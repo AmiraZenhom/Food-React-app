@@ -43,7 +43,7 @@ export default function SideBar() {
      <Sidebar collapsed={isCollapsed} className="  vh-100"
       
      >
-        <Menu>
+        <Menu >
           <MenuItem className="mt-5 mx-2"
             onClick={handelToggle}
             icon={<img src={Logo} className="photo "/>}
@@ -51,7 +51,7 @@ export default function SideBar() {
             {" "}
           </MenuItem>
           <MenuItem className="mt-5"
-            icon={<i className="fa fa-home" aria-hidden="true"></i>}
+            icon={<i className="fa fa-home " aria-hidden="true"></i>}
             component={<Link to="/dashboard" />}
           >
             {" "}

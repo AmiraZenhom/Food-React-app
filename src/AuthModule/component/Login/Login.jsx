@@ -1,14 +1,16 @@
 //eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../../assets/images/1.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PreLoader from "../../../SharedModule/Component/PreLoader/PreLoader";
 
 // eslint-disable-next-line react/prop-types
 export default function Login({ saveAdminData }) {
+  const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -16,19 +18,25 @@ export default function Login({ saveAdminData }) {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
+    setShowLoading(true);
     axios
       .post("https://upskilling-egypt.com/api/v1/Users/Login", data)
       .then((Response) => {
         setTimeout(toast("Wow Login !"), 2000);
         localStorage.setItem("adminToken", Response.data.token);
         saveAdminData();
+        setShowLoading(false);
         navigate("/dashboard");
       })
       .catch((error) => {
         toast(error?.response?.data?.message || "error");
+        setShowLoading(false);
       });
   };
-  return (
+  
+  return showLoading ? (
+    <div className="prePosition"> <PreLoader/></div>
+   ) :  (
     <>
       <div className="Auth-container container-fluid ">
         <div className="row bg-overLay vh-100 justify-content-center align-items-center  ">

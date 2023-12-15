@@ -22,7 +22,13 @@
     color: black !important;
 }
 .info{
+    
     color: rgb(47, 140, 51 ) ;
+}
+.info1{
+    height: 45px;
+   
+    
 }
 .page-link:hover{
     background-color: rgb(47, 140, 51 ) !important ;
@@ -80,3 +86,16 @@
 .mod1{
     border-color:#198754;
 }
+.headerImg {
+    -webkit-animation: mover 1s infinite  alternate;
+    animation: mover 1s infinite  alternate;
+  }
+  @-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+  @keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+

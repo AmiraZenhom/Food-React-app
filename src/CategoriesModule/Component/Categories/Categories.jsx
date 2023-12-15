@@ -126,11 +126,11 @@ export default function Categories() {
       <Modal show={modalState == "modal-one"} onHide={handleClose}>
         <Modal.Body>
           <form className=" w-75  m-auto  " onSubmit={handleSubmit(onSubmit)}>
-            <h4> Add Category</h4>
+            <h4 className="text-success"> Add Category</h4>
             <div className="form-group ">
               <input
                 type="text"
-                className="form-control my-4"
+                className="form-control my-4 border-success"
                 placeholder="Name"
                 {...register("name", { required: true })}
               />
@@ -144,15 +144,15 @@ export default function Categories() {
       </Modal>
 
       <Modal show={modalState == "modal-two"} onHide={handleClose}>
-        <Modal.Body>
+        <Modal.Body className="mod">
           <form
             className=" w-75  m-auto  "
             onSubmit={handleSubmit(deleteCategory)}
           >
-            <div className="text-center">
+            <div className="text-center text-danger">
               <img src={Photo} alt="nodata" />
-              <h4> Delete This Category ?</h4>
-              <p>
+              <h4 > Delete This Category ?</h4>
+              <p >
                 are you sure you want to delete this item ? if you are sure just
                 click on delete it
               </p>
@@ -170,16 +170,16 @@ export default function Categories() {
       </Modal>
 
       <Modal show={modalState == "modal-three"} onHide={handleClose}>
-        <Modal.Body>
+        <Modal.Body  >
           <form
             className=" w-75  m-auto  "
             onSubmit={handleSubmit(UpdateCategory)}
           >
-            <h4> Update Category</h4>
-            <div className="form-group ">
+            <h4 className="text-success"> Update Category</h4>
+            <div className="form-group  ">
               <input
                 type="text"
-                className="form-control my-4"
+                className="form-control border-success my-4 "
                 placeholder="Name"
                 {...register("name", { required: true })}
               />
@@ -193,7 +193,7 @@ export default function Categories() {
       </Modal>
 
       <Header>
-        <div className="header-content  m-2 text-white  ">
+        <div className="header-content  mx-2 text-white  ">
           <div className="row px-4 py-2 g-0 align-Items-center  ">
             <div className="col-sm-10 mt-4 ps-5  ">
               <div className="mx-3">
@@ -205,14 +205,14 @@ export default function Categories() {
               </div>
             </div>
             <div className="col-md-2">
-              <img className="img-fluid" src={header} alt="" />
+              <img className="img-fluid headerImg" src={header} alt="logo" />
             </div>
           </div>
         </div>
       </Header>
       <div className=" mx-3 py-5  px-3 ">
         <div className=" row align-items-center ">
-          <div className="col-md-9">
+          <div className="col-md-9 ">
             <h4>Categories Table Details</h4>
             <p>You can check all details</p>
           </div>
@@ -266,7 +266,7 @@ export default function Categories() {
             )}
             <div className="d-flex justify-content-center my-5">
               <nav aria-label="...">
-                <ul className="pagination pagination-lg">
+                <ul className="pagination pagination-sm">
                   {pagesArray.map((pageNu) => (
                     <li
                       key={pageNu}
