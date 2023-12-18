@@ -4,7 +4,14 @@
 .img{
     width: 20px;
 }
+.nofound{
+    background-image: url(assets/images/Not-Found.png);
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position:100% 100%;
+   
 
+}
 .Auth-container{
     background-image: url(assets/images/225.png);
     background-size:cover;
@@ -26,8 +33,8 @@
     color: rgb(47, 140, 51 ) ;
 }
 .info1{
-    height: 45px;
-   
+    height: 50px;
+   background-color:  rgba(120, 216, 125, 0.4) ; ;
     
 }
 .page-link:hover{
@@ -38,6 +45,7 @@
     background-image: url(../src/assets/images/header-bg-svg.svg);
     background-size: cover;
     background-position: 100% 100%;
+    height: 180px;
     
 }
 

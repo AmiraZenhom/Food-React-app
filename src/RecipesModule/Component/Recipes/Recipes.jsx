@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import NoData from "../../../SharedModule/Component/NoData/NoData";
+import Photo7 from "../../../assets/images/download.png";
 import Photo from "../../../assets/images/nodata.png";
 
 export default function Recipes() {
@@ -39,9 +40,10 @@ export default function Recipes() {
       })
       .then((response) => {
         console.log(response);
-        setTimeout(toast("Add Success"), 2000);
+       
         handleClose();
         getRecipesList();
+        toast.success("Add Successfully");
       })
       .catch((error) => {
         toast(error?.response?.data?.message || "error");
@@ -59,6 +61,7 @@ export default function Recipes() {
         console.log(response);
         handleClose();
         getRecipesList();
+        toast.success("Delete Successfully");
       })
       .catch((error) => {
         console.log(error);
@@ -85,6 +88,7 @@ export default function Recipes() {
         console.log(response);
         handleClose();
         getRecipesList();
+        toast.success("Up date Successfully");
       })
       .catch((error) => {
         console.log(error);
@@ -134,6 +138,7 @@ export default function Recipes() {
         console.log({ tagList: response.data });
 
         setTagList(response?.data);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -315,7 +320,7 @@ export default function Recipes() {
             onSubmit={handleSubmit(deleteCategory)}
           >
             <div className="text-center ">
-              <img src={Photo} alt="nodata" />
+              <img src={Photo7} alt="nodata" />
               <h4 className="text-danger"> Delete This Category ?</h4>
               <p className="text-danger">
                 are you sure you want to delete this item ? if you are sure just
@@ -339,7 +344,7 @@ export default function Recipes() {
             className=" w-75  m-auto  "
             onSubmit={handleSubmit(UpdateCategory)}
           >
-            <h4 className="text-success py-3"> Update Item</h4>
+            <h4 className="text-success py-3"> Up date Item</h4>
             <div className="col-md-12 form-group ">
               <input
                 type="text"
@@ -441,10 +446,10 @@ export default function Recipes() {
         </Modal.Body>
       </Modal>
 
-      <Header>
-        <div className="header-content  m-2 text-white ">
-          <div className="row px-4  g-0 align-Items-center justify-content-center  ">
-            <div className="col-sm-9 p-5  ">
+        <Header>
+        <div className="header-content  mx-2 text-white  ">
+          <div className="row px-4 py-2 g-0 align-Items-center  ">
+            <div className="col-sm-10 mt-4 ps-5  ">
               <div className="mx-3">
                 <h3>Recipes Items</h3>
                 <p>
@@ -453,8 +458,8 @@ export default function Recipes() {
                 </p>
               </div>
             </div>
-            <div className="col-md-3  py-3 ps-5 ">
-              <img className="img-fluid headerImg" src={header} alt="" />
+            <div className="col-md-2">
+              <img className="img-fluid headerImg" src={header} alt="logo" />
             </div>
           </div>
         </div>
@@ -462,7 +467,7 @@ export default function Recipes() {
 
       <div className=" mx-3 py-4  px-3 ">
         <div className=" row align-items-center  ">
-          <div className="col-md-9">
+          <div className="col-md-9 text-success">
             <h4>Recipe Table Details</h4>
             <p>You can check all details</p>
           </div>
@@ -524,7 +529,7 @@ export default function Recipes() {
                     <td>
                       <i
                         onClick={() => showUpdateModal(recipe)}
-                        className="fa fa-edit fs-4 me-2 text-primary"
+                        className="fa fa-edit fs-4 me-2 text-success"
                       ></i>
                       <i
                         onClick={() => showDeleteModal(recipe.id)}

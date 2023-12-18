@@ -11,6 +11,7 @@ import PreLoader from "../../../SharedModule/Component/PreLoader/PreLoader";
 // eslint-disable-next-line react/prop-types
 export default function Login({ saveAdminData }) {
   const [showLoading, setShowLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -18,6 +19,7 @@ export default function Login({ saveAdminData }) {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
+    setIsLoading(true);
     setShowLoading(true);
     axios
       .post("https://upskilling-egypt.com/api/v1/Users/Login", data)
@@ -29,14 +31,14 @@ export default function Login({ saveAdminData }) {
         navigate("/dashboard");
       })
       .catch((error) => {
+       
         toast(error?.response?.data?.message || "error");
+        setIsLoading(false);
         setShowLoading(false);
       });
   };
   
-  return showLoading ? (
-    <div className="prePosition"> <PreLoader/></div>
-   ) :  (
+  return  (
     <>
       <div className="Auth-container container-fluid ">
         <div className="row bg-overLay vh-100 justify-content-center align-items-center  ">
@@ -86,7 +88,18 @@ export default function Login({ saveAdminData }) {
                     <p>Forgot Password?</p>
                   </Link>
                 </div>
-                <button className="btn btn-success w-100 my-4">Login</button>
+                <button
+                  
+                    className={
+                      "btn btn-success w-100 mb-5" + (isLoading ? " disabled" : " ")
+                    }
+                  >
+                    {isLoading == true ? (
+                      <i className="fas fa-spinner fa-spin"></i>
+                    ) : (
+                      "Login"
+                    )}
+                  </button>
               </form>
             </div>
           </div>

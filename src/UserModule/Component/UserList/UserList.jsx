@@ -4,6 +4,7 @@ import header from "../../../assets/images/Group 48102127.png";
 import axios from "axios";
 import NoData from "../../../SharedModule/Component/NoData/NoData";
 import Photo from "../../../assets/images/nodata.png";
+import Photo7 from "../../../assets/images/download.png";
 import Modal from "react-bootstrap/Modal";
 
 export default function UserList() {
@@ -73,10 +74,10 @@ export default function UserList() {
   return (
     <>
       <Modal show={modalState == "modal-two"} onHide={handleClose}>
-        <Modal.Body>
+        <Modal.Body className="mod text-danger">
           <form className=" w-75  m-auto  ">
             <div className="text-center">
-              <img src={Photo} alt="nodata" />
+              <img src={Photo7} alt="nodata" />
               <h4> Delete This Category ?</h4>
               <p>
                 are you sure you want to delete this item ? if you are sure just
@@ -94,10 +95,11 @@ export default function UserList() {
           </form>
         </Modal.Body>
       </Modal>
-      <Header>
-        <div className="header-content  m-2 text-white ">
+     
+        <Header>
+        <div className="header-content  mx-2 text-white  ">
           <div className="row px-4 py-2 g-0 align-Items-center  ">
-            <div className="col-sm-10  ">
+            <div className="col-sm-10 mt-4 ps-5  ">
               <div className="mx-3">
                 <h3>Users List</h3>
                 <p>
@@ -115,7 +117,7 @@ export default function UserList() {
 
       <div className=" mx-3 py-5  px-3 ">
         <div className=" row align-items-center ">
-          <div className="col-md-9">
+          <div className="col-md-9 text-success">
             <h4>User Table Details</h4>
             <p>You can check all details</p>
           </div>
@@ -127,7 +129,7 @@ export default function UserList() {
             placeholder="search by user name"
           />
           {usersList.length > 0 ? (
-            <table className="table  table-hover table-bordered  text-center container-fluid">
+            <table className="table   table table-striped  text-center container-fluid">
               <thead className="table-info">
                 <tr>
                   <th scope="col">#</th>

@@ -6,6 +6,7 @@ import NoData from "../../../SharedModule/Component/NoData/NoData";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import Photo7 from "../../../assets/images/download.png";
 import Photo from "../../../assets/images/nodata.png";
 
 export default function Categories() {
@@ -32,6 +33,8 @@ export default function Categories() {
         setTimeout(toast("Add Success"), 2000);
         handleClose();
         getCategoriesList();
+        toast.success("Add Successfully");
+        
       })
       .catch((error) => {
         toast(error?.response?.data?.message || "error");
@@ -49,6 +52,7 @@ export default function Categories() {
         console.log(response);
         handleClose();
         getCategoriesList();
+        toast.success("Delete Successfully");
       })
       .catch((error) => {
         console.log(error);
@@ -63,9 +67,11 @@ export default function Categories() {
         },
       })
       .then((response) => {
+       
         console.log(response);
         handleClose();
         getCategoriesList();
+        toast.success(" Updated Successfully");
       })
       .catch((error) => {
         console.log(error);
@@ -150,7 +156,7 @@ export default function Categories() {
             onSubmit={handleSubmit(deleteCategory)}
           >
             <div className="text-center text-danger">
-              <img src={Photo} alt="nodata" />
+              <img src={Photo7} alt="nodata" />
               <h4 > Delete This Category ?</h4>
               <p >
                 are you sure you want to delete this item ? if you are sure just
@@ -175,7 +181,7 @@ export default function Categories() {
             className=" w-75  m-auto  "
             onSubmit={handleSubmit(UpdateCategory)}
           >
-            <h4 className="text-success"> Update Category</h4>
+            <h4 className="text-success"> Up date Category</h4>
             <div className="form-group  ">
               <input
                 type="text"
@@ -212,7 +218,7 @@ export default function Categories() {
       </Header>
       <div className=" mx-3 py-5  px-3 ">
         <div className=" row align-items-center ">
-          <div className="col-md-9 ">
+          <div className="col-md-9 text-success ">
             <h4>Categories Table Details</h4>
             <p>You can check all details</p>
           </div>
@@ -229,7 +235,7 @@ export default function Categories() {
             placeholder="search by category name"
           />
             {categoriesList.length > 0 ? (
-              <table className="table  table-hover table-bordered  text-center">
+              <table className="table  table-hover   text-center">
                 <thead className="table-secondary">
                   <tr>
                     <th scope="col">#</th>
@@ -250,7 +256,7 @@ export default function Categories() {
                       <td>
                         <i
                           onClick={() => showUpdateModal(category)}
-                          className="fa fa-edit fs-4 me-2 text-primary"
+                          className="fa fa-edit fs-4 me-2 text-success"
                         ></i>
                         <i
                           onClick={() => showDeleteModal(category.id)}

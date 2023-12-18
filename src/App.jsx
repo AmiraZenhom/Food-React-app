@@ -18,6 +18,7 @@ import RequestPass from "./AuthModule/component/RequestPass/RequestPass";
 import ResetPassword from "./AuthModule/component/ResetPassword/ResetPassword";
 import Header from "./SharedModule/Component/Header/Header";
 import Register from "./AuthModule/component/Register/Register";
+import VerfiyEmail from "./AuthModule/component/verfiyEmail/verfiyEmail";
 
 useState;
 function App() {
@@ -64,6 +65,7 @@ function App() {
         { path: "/forgetPass", element: <ForgetPass /> },
         { path: "/requestPass", element: <RequestPass /> },
         { path: "/resetPassword", element: <ResetPassword /> },
+        { path: "/verfiy", element: <VerfiyEmail /> },
         {
           path: "/register",
           element: <Register  />,

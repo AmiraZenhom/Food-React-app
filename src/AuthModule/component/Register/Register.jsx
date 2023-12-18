@@ -21,7 +21,7 @@ export default function Register() {
 
         // localStorage.setItem("adminToken", Response.data.token);
         // saveAdminData();
-        navigate("/");
+        navigate("/verfiy"); 
       })
       .catch((error) => {
         toast(error?.response?.data?.message || "error");
@@ -135,8 +135,8 @@ export default function Register() {
                       )}
                   </div>
                 </div>
-                <div className="my-2 text-end">
-                  <Link to="/">
+                <div className="my-2  w-25  ">
+                  <Link to="/" >
                     <p>login now</p>
                   </Link>
                 </div>
